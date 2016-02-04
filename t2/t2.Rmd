@@ -7,7 +7,7 @@ output: md_document
 
 ```{r, echo=FALSE}
 library(ggplot2)
-labs <- read.csv("~/NUS/Year4_Sem2/IS4250/Tutorial/2/labs.csv")
+labs <- read.csv("~/NUS/Year4_Sem2/IS4250/GitHub/IS4250/t2/labs.csv")
 
 #a.i
 cat("\n(a)(i). WaitTime")
@@ -51,7 +51,7 @@ cat("\n(d)")
 cat("BMI = WT/(HT^2)")
 labs$BMI <- labs$WT/(labs$HT^2)
 cat("Manually create a new dataframe \'labsTC.csv\' which excludes the rows whose TC = na")
-labsTC <- read.csv("~/NUS/Year4_Sem2/IS4250/Tutorial/2/labsTC.csv")
+labsTC <- read.csv("~/NUS/Year4_Sem2/IS4250/GitHub/IS4250/t2/labsTC.csv")
 labsTC$BMI <- labsTC$WT/(labsTC$HT^2)
 qplot(BMI,TC,data=labsTC)
 m3 <- lm(BMI~TC, data=labsTC)
@@ -64,10 +64,14 @@ cat("Let GdrN = 1 if Gender = M, otherwise GdrN = 0")
 labsTC$GdrN <- ifelse(labsTC$Gender=="M",1,0)
 m4 <- lm(BMI~AGE+SBP+TC+GdrN, data=labsTC)
 summary(m4)
-cat("BMI = 6.609016 + 0.023387*AGE + 0.058949*SBP + 0.039896*TC + 0.086733*GdrN")
-cat("Let AGE=45, SBP=135, TC=150, GdrN=1, we get BMI=21.690679")
+cat("Therefore, there is no statistical evidence suggesting that BMI is correlated with AGE and GdrN. Thus, AGE and GdrN are taken out from the regression.")
+m5 <- lm(BMI~SBP+TC, data=labsTC)
+summary(m5)
+cat("Therefore, BMI = 6.063246 + 0.067615*SBP + 0.042257*TC")
+cat("Let SBP=135 and TC=150, we get BMI=21.529821")
 cat("Assumption: (1). AGE, SBP, TC and GdrN are independent. (2). Nation does not affect BMI, or all the data are from Chinese.")
 
 
 
 ```
+

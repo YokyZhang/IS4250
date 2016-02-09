@@ -1,0 +1,77 @@
+---
+title: "t2"
+author: "Yoky"
+date: "February 4, 2016"
+output: md_document
+---
+
+```{r, echo=FALSE}
+library(ggplot2)
+labs <- read.csv("~/NUS/Year4_Sem2/IS4250/GitHub/IS4250/t2/labs.csv")
+
+#a.i
+cat("\n(a)(i). WaitTime")
+summary(labs$WaitTime)
+mean1 <- mean(labs$WaitTime)
+sd1 <- sd(labs$WaitTime)
+cat("sd = ", sd1)
+cat("KPI for WaitTime is ", mean1, " + ", sd1, " = ", (mean1+sd1))
+hist(labs$WaitTime, breaks=16)
+
+#a.ii
+cat("\n(a)(ii). SvcSat")
+cat("Let SvcSatN = 1 if SvcSat = Y, otherwise SvcSatN = 0")
+labs$SvcSatN <- ifelse(labs$SvcSat=="Y",1,0)
+summary(labs$SvcSatN)
+mean2 <- mean(labs$SvcSatN)
+sd2 <- sd(labs$SvcSatN)
+cat("sd = ", sd2)
+cat("KPI for SvcSatN is ", mean2, " + 0.3 *", sd2, " = ", (mean2+0.3*sd2))
+hist(labs$SvcSatN) 
+
+#b
+cat("\n(b)")
+cat("Let GdrN = 1 if Gender = M, otherwise GdrN = 0")
+labs$GdrN <- ifelse(labs$Gender=="M",1,0)
+m1 <- lm(SvcSatN~AGE+GdrN, data=labs)
+summary(m1)
+cat("Therefore, statistical evidence suggests that AGE is correlated with SvcSat, while GdrN(Gender) isn't.")
+#qplot(AGE,SvcSatN,data=labs)
+#qplot(Gender,SvcSatN,data=labs)
+
+#c
+cat("\n(c)")
+qplot(WaitTime,SvcSatN,data=labs)
+m2 <- lm(SvcSatN~WaitTime, data=labs)
+summary(m2)
+cat("Therefore, statistical evidence suggests that SvcSat is correlated with WaitTime")
+
+#d
+cat("\n(d)")
+cat("BMI = WT/(HT^2)")
+labs$BMI <- labs$WT/(labs$HT^2)
+cat("Manually create a new dataframe \'labsTC.csv\' which excludes the rows whose TC = na")
+labsTC <- read.csv("~/NUS/Year4_Sem2/IS4250/GitHub/IS4250/t2/labsTC.csv")
+labsTC$BMI <- labsTC$WT/(labsTC$HT^2)
+qplot(BMI,TC,data=labsTC)
+m3 <- lm(BMI~TC, data=labsTC)
+summary(m3)
+cat("Therefore, statistical evidence suggests that BMI is correlated with TC")
+
+#e
+cat("\n(e)")
+cat("Let GdrN = 1 if Gender = M, otherwise GdrN = 0")
+labsTC$GdrN <- ifelse(labsTC$Gender=="M",1,0)
+m4 <- lm(BMI~AGE+SBP+TC+GdrN, data=labsTC)
+summary(m4)
+cat("Therefore, there is no statistical evidence suggesting that BMI is correlated with AGE and GdrN. Thus, AGE and GdrN are taken out from the regression.")
+m5 <- lm(BMI~SBP+TC, data=labsTC)
+summary(m5)
+cat("Therefore, BMI = 6.063246 + 0.067615*SBP + 0.042257*TC")
+cat("Let SBP=135 and TC=150, we get BMI=21.529821")
+cat("Assumption: (1). AGE, SBP, TC and GdrN are independent. (2). Nation does not affect BMI, or all the data are from Chinese.")
+
+
+
+```
+

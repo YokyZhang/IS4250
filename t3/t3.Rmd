@@ -1,13 +1,13 @@
 ---
-title: "t2"
+title: "t3"
 author: "Yoky"
-date: "February 4, 2016"
+date: "February 9, 2016"
 output: md_document
 ---
 
 ```{r, echo=FALSE}
 library(ggplot2)
-labs <- read.csv("~/NUS/Year4_Sem2/IS4250/GitHub/IS4250/t2/labs.csv")
+labs <- read.csv("~/NUS/Year4_Sem2/IS4250/GitHub/IS4250/t3/labs.csv")
 
 #a.i
 cat("\n(a)(i). WaitTime")
@@ -51,7 +51,7 @@ cat("\n(d)")
 cat("BMI = WT/(HT^2)")
 labs$BMI <- labs$WT/(labs$HT^2)
 cat("Manually create a new dataframe \'labsTC.csv\' which excludes the rows whose TC = na")
-labsTC <- read.csv("~/NUS/Year4_Sem2/IS4250/GitHub/IS4250/t2/labsTC.csv")
+labsTC <- read.csv("~/NUS/Year4_Sem2/IS4250/GitHub/IS4250/t3/labsTC.csv")
 labsTC$BMI <- labsTC$WT/(labsTC$HT^2)
 qplot(BMI,TC,data=labsTC)
 m3 <- lm(BMI~TC, data=labsTC)
@@ -70,8 +70,5 @@ summary(m5)
 cat("Therefore, BMI = 6.063246 + 0.067615*SBP + 0.042257*TC")
 cat("Let SBP=135 and TC=150, we get BMI=21.529821")
 cat("Assumption: (1). AGE, SBP, TC and GdrN are independent. (2). Nation does not affect BMI, or all the data are from Chinese.")
-
-
-
 ```
 

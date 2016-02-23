@@ -1,0 +1,36 @@
+---
+title: "t5"
+author: "Yoky"
+date: "February 23, 2016"
+output: md_document
+---
+
+```{r}
+library(foreign)
+library(ggplot2)
+cty = read.spss("/Users/Yoky/NUS/Year4_Sem2/IS4250/Tutorial/5/country122.sav", to.data.frame=TRUE)
+```
+
+```{r}
+fit1 <- lm(lifeexpf ~ birthrat, data=cty)
+summary(fit1)
+
+p <- ggplot(cty, aes(x=lifeexpf, y=birthrat))
+p <- p + geom_point()
+p <- p + geom_smooth(method = "lm", colour = "red")
+plot(p)
+```
+The relationship between lifeexpf and birthrat is statistically significant on a 99.9% confidence level.
+Lifeexpf is expected to decrease by 0.74471 on average as birthrat increses by one.
+
+```{r}
+predict(fit1, data.frame(birthrat=25))
+```
+Lifeexpf is expected to be 70.9711 on average when birthrat is 25 provided that other economic variables are similar.
+
+```{r}
+fit2 <- lm(lifeexpf ~ gdp + urban + hospbed + docs + radio, data=cty)
+summary(fit2)
+```
+
+

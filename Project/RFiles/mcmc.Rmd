@@ -1,0 +1,35 @@
+---
+title: "MCMC"
+author: "Yoky"
+date: "April 8, 2016"
+output: md_document
+---
+We use Markov chain Monte Carlo (MCMC) algorithm to generate posterior distribution for a simple function:
+
+
+```{r}
+library(mcmc)
+
+# set initial state of Markov chain
+h <- function(x) if (all(x >= 0) && sum(x) <= 1) return(1) else return(-Inf)
+out <- metrop(h, rep(0, 5), 100)
+out$accept
+# increase accept rate
+out <- metrop(out, scale = 0.01)
+out$accept
+# set the nbatch to 100
+out <- metrop(out, nbatch = 1e2)
+out$accept
+```
+
+The plot of the 100 generated vectors is shown as following:
+```{r, echo=FALSE}
+plot(out$batch[ , 1])
+```
+
+The posterior distribution is shown as following:
+```{r, echo=FALSE}
+# hist of posterior distribution
+hist(out$batch[ , 1])
+```
+
